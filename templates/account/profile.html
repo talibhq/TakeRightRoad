@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{%load static%}
+
+{%block title%} EasyTraveller | Profile {%endblock%}
+
+{%block content%}
+	<div class="container">
+		<div class="jumbotron">
+			<div class="row">
+				<div class="col-lg-12 col-md-12">
+					<div class="text-center profile_div">
+						<img src="{{ user_object.get_profile }}" class="user_profile_img">
+						<br><br>
+						<h2>{{ user_object.name }}</h2>
+						
+						{% if user_object.bio %}
+							<h4 class="bold300">{{ user_object.bio }}</h4>
+						{% endif %}
+
+						<h4 class="text-primary mt-10 mb-10">
+							<a class="followers show_modal" title="Followers" link='/account/{{ user_object.username }}/followers/'>
+								<span id="followers_count" class="show_modal_data">{{ user_object.count_followers }}</span> Followers
+							</a> |
+					
+							<a class="following show_modal" title="Following" link='/account/{{ user_object.username }}/following/'>
+								<span id="following_count" class="show_modal_data">{{ user_object.count_following }}</span> Following
+							</a>
+						</h4>
+						
+						<div class='user_social_link mt-10'>
+							<ul>
+								{% if user_object.facebook_link %}
+	                  				<li><a class="facebook" href="{{ user_object.facebook_link }}"><i class="fa fa-facebook"></i></a></li>
+	                  			{% endif %}
+	                  			
+	                  			{% if user_object.twitter_link %}
+	                  				<li><a class="twiter" href="{{ user_object.twitter_link }}"><i class="fa fa-twitter"></i></a></li>
+	                  			{% endif %}
+	                  			
+	                  			{% if user_object.instagram_link %}
+	                  				<li><a class="insta" href="{{ user_object.instagram_link }}"><i class="fa fa-instagram"></i></a></li>
+	                  			{% endif %}
+	                		</ul>
+						</div>
+						<br>
+						
+						{% if user.is_authenticated %}
+							{% if user == user_object %}
+								<a class="btn btn-sm btn-outline-danger" href="{%url 'user_logout' %}">Logout</a>
+								<a class="btn btn-sm btn-outline-info" href="{%url 'update_profile' user.username %}">Update</a>
+								<a class="btn btn-sm btn-outline-primary" href="{%url 'write_blog' %}">Write Blog</a>
+							{% else %}
+								<div class="follow_div">
+									{% if is_you_follow %}
+										<button class="btn btn-sm btn-outline-danger" data="{{ user_object.username }}" onclick="toggleFollow(this, true)">Unfollow</button>
+									{% else %}
+										<button class="btn btn-sm btn-outline-info" data="{{ user_object.username }}" onclick="toggleFollow(this, true)">Follow</button>
+									{% endif %}
+								</div> 
+							{% endif %}
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			<br><br>
+			{% if blogs %}
+				<div class="row">
+					<div class="col-lg-12 col-md-12">
+						<div class="col-xl-12">
+	                    	<div class="section_title mb-33">
+	                        	<h3>Blogs</h3>
+	                    	</div>
+	                	</div>
+	                	<div class="row">
+	                		{% for blog in blogs %}
+	                        	<div class="col-xl-4 col-md-4">
+	                            	<div class="single_blog">
+	                                	<div class="blog_thumb">
+	                                    	<a href="#">
+	                                        	<img src="{{ blog.banner.url }}" class="blog_img" alt="">
+	                                    	</a>
+	                                	</div>
+	                                	<div class="blog_meta">
+	                                    	<h3><a href="{%url 'single_blog' blog.slug %}" class="yellowhover">{{ blog.title }}</a></h3>
+	                                	</div>
+	                            	</div>
+	                        	</div>
+	                    	{% endfor %}
+	                	</div>
+					</div>
+				</div>
+			{% endif %}
+			<br><br>
+			{% if user == user_object and liked_blogs %}
+				<div class="row">
+					<div class="col-lg-12 col-md-12">
+						<div class="col-xl-12">
+	                    	<div class="section_title mb-33">
+	                        	<h3>Liked Blogs</h3>
+	                    	</div>
+	                	</div>
+	                	<div class="row">
+	                		{% for blog in liked_blogs %}
+	                        	<div class="col-xl-4 col-md-4">
+	                            	<div class="single_blog">
+	                                	<div class="blog_thumb">
+	                                    	<a href="#">
+	                                        	<img src="{{ blog.banner.url }}" class="blog_img" alt="">
+	                                    	</a>
+	                                	</div>
+	                                	<div class="blog_meta">
+	                                    	<h3><a href="{%url 'single_blog' blog.slug %}" class="yellowhover">{{ blog.title }}</a></h3>
+	                                	</div>
+	                            	</div>
+	                        	</div>
+	                    	{% endfor %}
+	                	</div>
+					</div>
+				</div>
+			{% endif %}
+		</div>
+	</div>
+{%endblock%}

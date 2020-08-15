@@ -1,0 +1,207 @@
+{% extends 'base.html' %}
+{%load static%}
+
+{%block title%} EasyTraveller {%endblock%}
+
+{%block content%}
+    <div class="breadcam_area overlay2" style="background-image: url('{%static 'img/home_banner.jpg' %}'); opacity: 0.8;">
+        <div class="bradcam_text">
+            <h3><span class="banner_title">Welcome To The New World Of Traveller And Blogger</span></h3>
+        </div>
+    </div>
+    
+    <br><br>
+
+    <div class="photographi_area">
+        <div class="container">
+            <div class="row">
+            	<div class="col-xl-12">
+                    <div class="section_title mb-33">
+                        <h3>Popular Blogs</h3>
+                    </div>
+                </div>
+          		{% for blog in popular_blogs %}
+	                <div class="col-xl-6 col-md-6 mb-2">
+                        <div class="single_photography" style="background-image: url('{{ blog.banner.url }}'); background-repeat: no-repeat; background-size: cover; border-radius: 10px;">
+	                        <div class="info">
+	                            <div class="info_inner">
+	                                <h3><a href="{%url 'single_blog' blog.slug %}">{{ blog.title }}</a></h3>
+	                                <div class="date_catagory d-flex align-items-center justify-content-between">
+	                                    <span>{{ blog.created_on|date }}</span>
+	                                    <span class="catagory"><a href="{%url 'profile' blog.author.username %}">By {{ blog.author.name }}</a></span>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <br><br>
+
+    <div class="moderators_area">
+        <div class="container">
+            <div class="modarator_border"></div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="section_title mb-33">
+                        <h3>Popular Travellers</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                {% for author in popular_authors %}
+                    <div class="col-xl-3 col-md-3">
+                        <div class="single_modarators">
+                            <div class="moderator_thumb">
+                                <img src="{{ author.profile.url }}" class="radius10" height="250" alt="">
+                                <div class="author_links">
+                                    <ul>
+                                        {% if author.facebook_link %}
+                                            <li><a href="{{ author.facebook_link }}"> <i class="fa fa-facebook"></i> </a></li>
+                                        {% endif %}
+                                        {% if author.twitter_link %}
+                                            <li><a class="twiter" href="{{ author.twitter_link }}"> <i class="fa fa-twitter"></i> </a></li>
+                                        {% endif %}
+                                        {% if author.instagram_link %}
+                                            <li><a class="insta" href="{{ author.instagram_link }}"> <i class="fa fa-instagram"></i> </a></li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="moderator_name">
+                                <h3><a href="{%url 'profile' author.username %}" class="yellowhover">{{ author.name }}</a></h3>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <br><br>
+
+    <div class="photography_slider_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="section_title mb-33">
+                        <h3>Categories</h3>
+                    </div>
+                </div>
+                <div class="col-xl-12">
+                    <div class="photoslider_active owl-carousel">
+                        {% for category in categories %}
+                            <div class="single_photography">
+                                <img src="{{ category.banner.url }}" alt="">
+                                <div class="photo_title">
+                                    <h4><a href="{%url 'category_wise_blog' category.slug %}">{{ category.name|title }}</a></h4>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br><br>
+
+    <div class="most_recent_blog">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="section_title mb-33">
+                        <h3>Most Recent</h3>
+                    </div>
+                </div>
+                <div class="col-xl-8 col-md-8">
+                    <div class="row">
+                    	{% for blog in recent_blogs %}
+	                        <div class="col-xl-6 col-md-6">
+	                            <div class="single_blog">
+	                                <div class="blog_thumb">
+	                                    <a>
+	                                        <img src="{{ blog.banner.url }}" class="radius10" alt="">
+	                                    </a>
+	                                </div>
+	                                <div class="blog_meta">
+	                                    <p><a href="{%url 'profile' blog.author.username %}">By {{ blog.author.name }}</a> <b>|</b> {{ blog.created_on|date }}</p>
+	                                    <h3><a href="{%url 'single_blog' blog.slug %}">{{ blog.title }}</a></h3>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    {% endfor %}
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-4">
+                    <div class="blog_right_side">
+                        <div class="section_title mb-33">
+                            <h3>Follow Us</h3>
+                        </div>
+                        <div class="foollow_links">
+                            <ul class="d-flex align-items-center justify-content-between">
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-facebook"></i>
+                                        <h2>142K</h2>
+                                        <p>followers</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="insta" href="#">
+                                        <i class="fa fa-instagram"></i>
+                                        <h2>142K</h2>
+                                        <p>followers</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="twitter" href="#">
+                                        <i class="fa fa-twitter"></i>
+                                        <h2>142K</h2>
+                                        <p>followers</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="section_title mb-33">
+                            <h3>Tags</h3>
+                        </div>
+                        <div class="tags">
+                            <ul>
+                                {% for tag in tags %}
+                                    <li><a href="{%url 'tag_wise_blog' tag.slug %}">{{ tag.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="photo_gallery">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="section_title mb-33">
+                        <h3>Photo Gallery</h3>
+                    </div>
+                </div>
+                <div class="col-xl-12">
+                    <div class="photo_gallery_active owl-carousel">
+                    	{% for image in photo_gallery %}
+	                        <div class="single_photo_gallery" style="background-image: url('/media/{{ image.banner }}'); background-repeat: no-repeat; background-size: cover; border-radius: 20px;">
+	                            <div class="photo_caption">
+	                                <h3><i class="fa fa-map-marker"></i>  {{ image.location }}</h3>
+	                            </div>
+	                        </div>
+	                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{%endblock%}

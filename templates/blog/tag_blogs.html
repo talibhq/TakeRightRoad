@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{%load static%}
+
+{%block title%} EasyTraveller | Tag {%endblock%}
+
+{%block content%}
+  	<div class="breadcam_area overlay2" style="background-image: url('{{ tag.banner.url }}'); opacity: 0.9;">
+    	<div class="bradcam_text">
+      		<h3><span class="banner_title">{{ tag.name|title }}</span></h3>
+    	</div>
+  	</div>
+
+  	<br><br>
+
+
+    <div class="most_recent_blog">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="section_title mb-33">
+                        <h3>Blogs</h3>
+                    </div>
+                </div>
+                {% if blogs %}
+                    <div class="col-xl-12 col-md-12">
+                        <div class="row">
+                        	{% for blog in blogs %}
+                        		<div class="col-xl-4 col-md-4">
+    	                            <div class="single_blog">
+    	                                <div class="blog_thumb">
+    	                                    <a href="#">
+    	                                        <img src="{{ blog.banner.url }}" class="radius10" alt="">
+    	                                    </a>
+    	                                </div>
+    	                                <div class="blog_meta">
+    	                                    <p><a href="{%url 'profile' blog.author.username %}">By {{ blog.author.name }}</a> <b>|</b>  {{ blog.created_on|date }}</p>
+    	                                    <h3><a href="{%url 'single_blog' blog.slug %}">{{ blog.title }}</a></h3>
+    	                                </div>
+    	                            </div>
+    	                        </div>
+                        	{% endfor %}
+                            {% if blogs.has_other_pages %}
+                                <ul class="pagination">
+                                    {% if blogs.has_previous %}
+                                        <li class="page-item"><a href="?page={{ blogs.previous_page_number }}" class="page-link">Previous</a></li>&nbsp;&nbsp;
+                                    {% else %}
+                                        <li class="page-item disabled"><span>Previous</span></li>&nbsp;&nbsp;
+                                    {% endif %}
+                                    {% for i in blogs.paginator.page_range %}
+                                        {% if blogs.number == i %}
+                                            <li class="page-item active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>&nbsp;&nbsp;
+                                        {% else %}
+                                            <li class="page-item"><a href="?page={{ i }}">{{ i }}</a></li>&nbsp;&nbsp;
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if blogs.has_next %}
+                                        <li class="page-item"><a href="?page={{ blogs.next_page_number }}">Next</a></li>&nbsp;&nbsp;
+                                    {% else %}
+                                        <li class="page-item disabled"><span>Next</span></li>&nbsp;&nbsp;
+                                    {% endif %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% else %}
+                    <h2 class="text-center text-danger">No blogs found</h2>
+                {% endif %}
+            </div>
+        </div>    
+    </div>
+
+    <br><br>
+
+    <div class="photography_slider_area">
+        <div class="container">
+            <div class="row">
+            	<div class="col-xl-12">
+                    <div class="section_title mb-33">
+                        <h3>Categories</h3>
+                    </div>
+                </div>
+                <div class="col-xl-12">
+                    <div class="photoslider_active owl-carousel">
+                    	{% for category in categories %}
+                    		<div class="single_photography">
+	                            <img src="{{ category.banner.url }}" alt="">
+	                            <div class="photo_title">
+	                                <h4><a href="{%url 'category_wise_blog' category.slug %}">{{ category.name|title }}</a></h4>
+	                            </div>
+	                        </div>
+                    	{% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br><br>
+
+    <div class="photography_slider_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="section_title mb-33">
+                        <h3>Tags</h3>
+                    </div>
+                </div>
+                <div class="col-xl-12">
+                    <div class="photoslider_active owl-carousel">
+                        {% for tag in tags %}
+                            <div class="single_photography">
+                                <img src="{{ tag.banner.url }}" alt="">
+                                <div class="photo_title">
+                                    <h4><a href="{%url 'tag_wise_blog' tag.slug %}">{{ tag.name|title }}</a></h4>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br><br><br>
+
+    <div class="instagram_media_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="instagram_title text-center">
+                        <i class="fa fa-instagram"></i>
+                        <h3>@Traveller</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-3 col-md-3">
+                    <div class="single_instragram">
+                        <img src="{%static 'img/instagram/1.png' %}" alt="">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-3">
+                    <div class="single_instragram">
+                        <img src="{%static 'img/instagram/2.png' %}" alt="">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-3">
+                    <div class="single_instragram">
+                        <img src="{%static 'img/instagram/3.png' %}" alt="">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-3">
+                    <div class="single_instragram">
+                        <img src="{%static 'img/instagram/4.png' %}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{%endblock%}

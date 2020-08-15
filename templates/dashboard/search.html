@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{%load static%}
+
+{%block title%} EasyTraveller | Search {%endblock%}
+
+{%block content%}
+    <br>
+    <div class="most_recent_blog mt-10">
+        <div class="container">
+            {% if no_data %}
+                <div class="text-center">
+                    <h2 class="text-danger">No data found search something else</h2>
+                    <img src="{%static 'img/no-data-found.png' %}">
+                </div>
+            {% else %}
+                {% if search_by_blogs %}
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="section_title mb-33">
+                                <h3>Blogs</h3>
+                            </div>
+                        </div>
+                        <div class="col-xl-12 col-md-12">
+                            <div class="row">
+                            	{% for blog in search_by_blogs %}
+                            		<div class="col-xl-4 col-md-4">
+        	                            <div class="single_blog">
+        	                                <div class="blog_thumb">
+        	                                    <a href="#">
+        	                                        <img src="{{ blog.banner.url }}" class="radius10" alt="">
+        	                                    </a>
+        	                                </div>
+        	                                <div class="blog_meta">
+        	                                    <p><a href="{%url 'profile' blog.author.username %}">By {{ blog.author.name }}</a> <b>|</b>  {{ blog.created_on|date }}</p>
+        	                                    <h3><a href="{%url 'single_blog' blog.slug %}">{{ blog.title }}</a></h3>
+        	                                </div>
+        	                            </div>
+        	                        </div>
+                            	{% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if search_by_people %}
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="section_title mb-33">
+                                <h3>People</h3>
+                            </div>
+                        </div>
+                        <div class="col-xl-12 col-md-12">
+                            <div class="row">
+                                {% for user_object in search_by_people %}
+                                    <div class="col-xl-4 col-md-4">
+                                        <div class="text-center">
+                                            <img src="{% if user_object.profile %} {{ user_object.profile.url }} {% else %} {%static 'img/default_user.jpg' %} {% endif %}" class="user_profile_img">
+                                            <br><br>
+                                            <h2><a href="{%url 'profile' user_object.username %}" class="yellowhover">{{ user_object.name }}</a></h2>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <br><br>
+
+                {% if search_by_category %}
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="section_title mb-33">
+                                <h3>Categories</h3>
+                            </div>
+                        </div>
+                        <div class="col-xl-12 col-md-12">
+                            <div class="row">
+                                {% for category in search_by_category %}
+                                    <div class="col-xl-4 col-md-4">
+                                        <div class="single_blog">
+                                            <div class="blog_thumb">
+                                                <a href="#">
+                                                    <img src="{{ category.banner.url }}" class="radius10" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="blog_meta">
+                                                <h3><a href="{%url 'category_wise_blog' category.slug %}">{{ category.name }}</a></h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if search_by_tag %}
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="section_title mb-33">
+                                <h3>Tags</h3>
+                            </div>
+                        </div>
+                        <div class="col-xl-12 col-md-12">
+                            <div class="row">
+                                {% for tag in search_by_tag %}
+                                    <div class="col-xl-4 col-md-4">
+                                        <div class="single_blog">
+                                            <div class="blog_thumb">
+                                                <a href="#">
+                                                    <img src="{{ tag.banner.url }}" class="radius10" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="blog_meta">
+                                                <h3><a href="{%url 'tag_wise_blog' tag.slug %}">{{ tag.name }}</a></h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+{%endblock%}

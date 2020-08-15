@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{%load static%}
+
+{%block title%} EasyTraveller | UpdateProfile {%endblock%}
+
+{%block content%}
+	<div class="container">
+		<div class="jumbotron">
+			<div class="row">
+				<div class="col-lg-2 col-md-2"></div>
+
+				<div class="col-lg-8 col-md-8">
+					<h2 class="text-center text-primary">Update Profile</h2>
+					<br><br>
+					<form method="POST" enctype="multipart/form-data">
+						{% csrf_token %}
+						<div class="text-center">
+							<div class="profile-pic">
+								<div id="preview">
+									<img src="{{ user.get_profile }}" class="user_profile_img">
+								</div>
+								<div class="edit"><i class="fa fa-pencil fa-lg"></i></div>
+							</div>
+						</div>
+						<br><br>
+				  		<div class="form-group row">
+				    		<label class="col-sm-2 col-form-label"><b>Name</b></label>
+				    		<div class="col-sm-10">
+				      			{{ form.name }}
+				      			<span class="text-danger">{{ form.name.errors }}</span>
+				    		</div>
+				  		</div>
+				  		<div class="form-group row">
+				    		<label class="col-sm-2 col-form-label"><b>Bio</b></label>
+				    		<div class="col-sm-10">
+				      			{{ form.bio }}
+				      			<span class="text-danger">{{ form.bio.errors }}</span>
+				    		</div>
+				  		</div>
+				  		<div class="form-group row hide">
+				    		<label class="col-sm-2 col-form-label"><b>Profile</b></label>
+				    		<div class="col-sm-10">
+				      			{{ form.profile }}
+				      			<span class="text-danger">{{ form.profile.errors }}</span>
+				    		</div>
+				  		</div>
+				  		<div class="form-group row">
+				    		<label class="col-sm-2 col-form-label"><b>Facebook</b></label>
+				    		<div class="col-sm-10">
+				      			{{ form.facebook_link }}
+				      			<span class="text-danger">{{ form.facebook_link.errors }}</span>
+				    		</div>
+				  		</div>
+				  		<div class="form-group row">
+				    		<label class="col-sm-2 col-form-label"><b>Instagram</b></label>
+				    		<div class="col-sm-10">
+				      			{{ form.instagram_link }}
+				      			<span class="text-danger">{{ form.instagram_link.errors }}</span>
+				    		</div>
+				  		</div>
+				  		<div class="form-group row">
+				    		<label class="col-sm-2 col-form-label"><b>Twitter</b></label>
+				    		<div class="col-sm-10">
+				      			{{ form.twitter_link }}
+				      			<span class="text-danger">{{ form.twitter_link.errors }}</span>
+				    		</div>
+				  		</div>
+				  		<br>
+				  		<button type="submit" class="btn btn-sm btn-outline-success">Update</button>
+					</form>
+				</div>
+
+				<div class="col-lg-2 col-md-2"></div>
+			</div>
+		</div>
+	</div>
+{%endblock%}

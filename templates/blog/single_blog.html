@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{%load static%}
+
+{%block title%} EasyTraveller | Blog {%endblock%}
+
+{%block content%}
+  <section class="blog_area single-post-area section-padding">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-8">
+          <div class="col-lg-12 mb-3">
+            <h1>{{ blog.title|upper }}</h1>
+          </div>
+          
+          <div class="col-lg-12">
+            <img src="{{ blog.banner.url }}" class="single_blog_banner">
+          </div>
+
+          <div class="col-lg-12 mt-2">
+            <span>
+              <i class="fa fa-calendar"></i>&nbsp;&nbsp;{{ blog.created_on }}
+            </span> 
+            {% if blog_tags %}
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <span>
+                <i class="fa fa-tag"></i>
+                {% for tag in blog_tags %}
+                  <a href="{%url 'tag_wise_blog' tag.slug %}" class="btn btn-sm-secendary">{{ tag.name }}</a>
+                {% endfor %}
+              </span>
+            {% endif %}
+          </div>
+
+          <div class="col-lg-12 posts-list">
+            <div class="single-post">
+              <div class="blog_details" style="word-break: break-all;">
+                {{ blog.content|safe }}
+              </div>
+            </div>
+            <div class="navigation-top">
+              <div class="d-sm-flex justify-content-between text-center">
+                <p class="like-info">
+                  {% if user.is_authenticated %}
+                    {% if is_you_like %}
+                      <span class="align-middle like_btn" slug="{{ blog.slug }}"><i class="fa fa-heart" style="color: red;"></i></span>
+                    {% else %}
+                      <span class="align-middle like_btn" slug="{{ blog.slug }}"><i class="fa fa-heart"></i></span>
+                    {% endif %}
+                  {% endif %}
+                  <a style="font-weight: 500;" class="show_modal" title="Likes" link='/blog/{{ blog.slug }}/likes/'>
+                    <span class="likes_count show_modal_data">{{ blog.count_likes }}</span>likes
+                  </a>
+                </p>
+              </div>
+            </div>
+            <div class="comments-area">
+              {% if comments %}
+                <h4>{{ comments.count }} Comments</h4>
+                {% for comment in comments %}
+                  <div class="comment-list">
+                    <div class="single-comment justify-content-between d-flex">
+                      <div class="user justify-content-between d-flex">
+                        <div class="thumb">
+                          <img src="{{ comment.user.get_profile }}" class="comment-user-img" alt="">
+                        </div>
+                        <div class="desc">
+                          <p class="comment">{{ comment.text }}</p>
+                          <div class="d-flex justify-content-between">
+                            <div class="d-flex align-items-center">
+                              <h5>
+                                <a href="{%url 'profile' comment.user.username %}">{{ comment.user.name }}</a>
+                              </h5>
+                              <p class="date">{{ comment.created_on }}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              {% endif %}
+
+              {% if user.is_authenticated %}
+                <div class="comment-form">
+                  <h4>Leave a Reply</h4>
+                  <form class="form-contact comment_form" id="commentForm" method="POST" action="{%url 'comment_on_blog' blog.slug %}">
+                    {% csrf_token %}
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="form-group">
+                          <textarea class="form-control w-100" placeholder="write comment..." rows="10" cols="10" name="text" required></textarea>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <button type="submit" class="btn btn-sm btn-outline-info">Submit</button>
+                    </div>
+                  </form>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+            
+        <div class="col-lg-4">
+          <div class="blog_right_sidebar">
+            <aside class="single_sidebar_widget post_category_widget">
+              <h4 class="widget_title">Written By : </h4>
+              <div class="text-center">
+                <img src="{{ blog.author.get_profile }}" class="user_profile_img">
+                <br>
+                <h2 class="mt-10"><a href="{%url 'profile' blog.author.username %}">{{ blog.author.name }}</a></h2>
+                {% if blog.author.bio %}
+                  <p class="bold300">{{ blog.author.bio }}</p>
+                {% endif %}
+                <div class='user_social_link mt-10'>
+                  <ul>
+                    {% if blog.author.facebook_link %}
+                      <li><a class="facebook" href="{{ blog.author.facebook_link }}"><i class="fa fa-facebook"></i></a></li>
+                    {% endif %}
+                    
+                    {% if blog.author.twitter_link %}
+                      <li><a class="twiter" href="{{ blog.author.twitter_link }}"><i class="fa fa-twitter"></i></a></li>
+                    {% endif %}
+                      
+                    {% if blog.author.instagram_link %}
+                      <li><a class="insta" href="{{ blog.author.instagram_link }}"><i class="fa fa-instagram"></i></a><li>
+                    {% endif %}
+                  </ul>
+                </div>
+              </div>
+            </aside>
+            {% if user == blog.author %}
+              <button class="btn btn-outline-danger btn-lg btn-block" id="delete_btn" slug="{{ blog.slug }}">Delete Blog</button>
+            {% endif %}
+          </div>
+        </div>  
+      </div>
+    </div>
+
+    <br>
+
+    {% if related_blogs %}
+      <div class="most_recent_blog">
+        <div class="container">
+          <div class="row">
+            <div class="col-xl-12">
+              <div class="section_title mb-33">
+                <h3>More By {{ blog.author.name }}</h3>
+              </div>
+            </div>
+            <div class="col-xl-12 col-md-12">
+              <div class="row">
+                {% for blog in related_blogs %}
+                  <div class="col-xl-4 col-md-4">
+                    <div class="single_blog">
+                      <div class="blog_thumb">
+                        <a>
+                          <img src="{{ blog.banner.url }}" class="radius10" alt="">
+                        </a>
+                      </div>
+                      <div class="blog_meta">
+                        <h3><a href="{%url 'single_blog' blog.slug %}">{{ blog.title }}</a></h3>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  </section>
+{%endblock%}

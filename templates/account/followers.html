@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{%load static%}
+
+{%block title%} EasyTRaveller | Followers {%endblock%}
+
+{%block content%}
+	<div class="container">
+		<div class="jumbotron">
+			<h2 class="text-primary">{{ name|title }}'s Followers</h2>
+			<br>
+			{% if followers_data %}
+				<ul class="list-group">
+					{% for follower in followers_data %}
+						<li>
+							<div class="row">
+								<div class="col-lg-2 col-md-2">
+									<img src="{% if follower.profile %} {{ follower.profile }} {% else %} {%static 'img/default_user.jpg' %} {% endif %}" class="short_profile_img">
+								</div>
+								
+								<div class="col-lg-3 col-md-3 mt-2">
+									<h3><a href="{%url 'profile' follower.username %}" class="yellowhover">{{ follower.name }}</a></h3>
+								</div>
+								
+								{% if user.username != follower.username and user.is_authenticated %}
+									<div class="col-lg-3 col-md-3 mt-2">
+										{% if follower.is_you_follow %}
+											<button class="btn btn-sm btn-outline-danger" data="{{ follower.username }}" onclick="toggleFollow(this)">Unfollow</button>
+										{% else %}
+											<button class="btn btn-sm btn-outline-info" data="{{ follower.username }}" onclick="toggleFollow(this)">Follow</button>
+										{% endif %}
+									</div>
+								{% endif %}
+							</div>
+						</li>
+						<br>
+					{% endfor %}
+				</ul>
+			{% else %}
+				<p class="text-danger text-center">{{ name|title }} has no followers</p>
+			{% endif %}
+		</div>
+	</div>
+{%endblock%}
