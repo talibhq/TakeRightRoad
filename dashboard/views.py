@@ -4,6 +4,7 @@ from django.db.models import Count, Q
 from django.contrib import messages
 from blog.models import Blog, Category, Tag
 from account.models import User
+from ask_question.models import Question
 from .queries import get_categories, get_tags
 from .forms import UserQueryForm
 
@@ -66,14 +67,16 @@ class SearchPageView(View):
 		keyword = request.GET.get('q', '')
 		search_by_blogs = Blog.objects.filter(Q(title__icontains=keyword)|Q(content__icontains=keyword)).select_related('author').order_by('-views', '-created_on')
 		search_by_people = User.objects.filter(name__icontains=keyword, is_superuser=False, is_active=True).order_by('name')
+		search_by_questions = Question.objects.filter(title__icontains=keyword).order_by('-timestamp')
 		search_by_category = Category.objects.filter(name__icontains=keyword).order_by('name')
 		search_by_tag = Tag.objects.filter(name__icontains=keyword).order_by('name')
 		no_data = False
-		if not search_by_blogs and not search_by_people and not search_by_category and not search_by_tag:
+		if not search_by_blogs and not search_by_people and not search_by_questions and not search_by_category and not search_by_tag:
 			no_data = True
 		context = {
 			'search_by_blogs' : search_by_blogs,
 			'search_by_people' : search_by_people,
+			'search_by_questions' : search_by_questions,
 			'search_by_category' : search_by_category,
 			'search_by_tag' : search_by_tag,
 			'no_data' : no_data,

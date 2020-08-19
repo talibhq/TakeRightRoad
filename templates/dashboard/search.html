@@ -67,6 +67,27 @@
 
                 <br><br>
 
+                {% if search_by_questions %}
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="section_title mb-33">
+                                <h3>Questions</h3>
+                            </div>
+                        </div>
+                        <div class="col-xl-12 col-md-12">
+                            <div class="row">
+                                {% for question in search_by_questions %}
+                                    <div class="col-xl-4 col-md-4 p-10">
+                                        <div class="single_blog">
+                                            <h2 class="text-primary text-center"><a href="{%url 'question_details' question.slug %}">{{ question.title }}</a></h2>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
                 {% if search_by_category %}
                     <div class="row">
                         <div class="col-xl-12">
