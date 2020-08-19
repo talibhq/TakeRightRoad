@@ -89,8 +89,36 @@
 	                	</div>
 					</div>
 				</div>
+				<br><br>
 			{% endif %}
-			<br><br>
+			{% if questions %}
+				<div class="row">
+					<div class="col-lg-12 col-md-12">
+						<div class="col-xl-12">
+	                    	<div class="section_title mb-33">
+	                        	<h3>Questions</h3>
+	                    	</div>
+	                	</div>
+	                	<div class="row">
+	                		{% for question in questions %}
+	                        	<div class="col-xl-4 col-md-4">
+	                            	<div class="single_blog">
+	                                	<div class="blog_thumb">
+	                                    	<h3 class="text-primary"><a href="{%url 'question_details' question.slug %}">{{ question.title }}</a></h3>
+	                                	</div>
+	                                	<div class="blog_meta">
+	                                    	<div>
+												<span class="text-secendory">{{ question.timestamp|date }}</span>
+											</div>
+	                                	</div>
+	                            	</div>
+	                        	</div>
+	                    	{% endfor %}
+	                	</div>
+					</div>
+				</div>
+				<br><br>
+			{% endif %}
 			{% if user == user_object and liked_blogs %}
 				<div class="row">
 					<div class="col-lg-12 col-md-12">

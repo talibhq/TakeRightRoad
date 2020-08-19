@@ -10,6 +10,7 @@ from .models import User
 from .utils import generate_unique_username
 from dashboard.queries import get_categories
 from blog.models import Blog
+from ask_question.models import Question
 
 class UserSignupView(View):
 	template_name = 'account/signup.html'
@@ -83,6 +84,7 @@ class UserProfileView(View):
 		user_object = get_object_or_404(User, username=username)
 		blogs = Blog.objects.filter(author=user_object).select_related('author').order_by('-created_on')
 		liked_blogs = Blog.objects.filter(likes=user_object).exclude(author=user_object).select_related('author')
+		questions = Question.objects.filter(user=user_object).select_related('user').order_by('-timestamp')
 		is_you_follow = False
 		exists = user_object.followers.filter(id=request.user.id).exists()
 		if exists:
@@ -91,6 +93,7 @@ class UserProfileView(View):
 			'user_object' : user_object,
 			'blogs' : blogs,
 			'liked_blogs' : liked_blogs,
+			'questions' : questions,
 			'is_you_follow' : is_you_follow,
 			'categories' : get_categories(),
 		}

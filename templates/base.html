@@ -53,12 +53,12 @@
                 <p>
                   {% if user.is_authenticated %}
                     <div class="dropdown">
-                      <button class="btn btn-sm btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {{ user.name }}
-                      </button>
+                        <img src="{{ user.get_profile }}" class="short_profile_img">&nbsp;
+                        <span class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ user.name }}</span>
                       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="{%url 'profile' user.username %}">Profile</a>
                         <a class="dropdown-item" href="{%url 'write_blog' %}">Write a Blog</a>
+                        <a class="dropdown-item" href="{%url 'ask_question' %}">Ask a Question</a>
                         <a class="dropdown-item" href="{%url 'user_logout' %}">Logout</a>
                       </div>
                     </div>

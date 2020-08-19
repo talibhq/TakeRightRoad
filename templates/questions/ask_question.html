@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{%block title%} EasyTraveller | Ask Question {%endblock%}
+
+{%block content%}
+	<div class="breadcam_area overlay2" style="background-image: url('{%static 'img/doubt.png' %}'); opacity: 0.8;">
+        <div class="bradcam_text">
+            <h3><span class="banner_title">Ask your travelling doubts with the world</span></h3>
+        </div>
+    </div>
+
+	<div class="container">
+		<div class="jumbotron">
+			<div class="row">
+				<div class="col-lg-2 col-md-2"></div>
+
+				<div class="col-lg-8 col-md-8">
+					<h2 class="text-center text-info">Ask Question</h2>
+					<br><br>
+					<form method="POST">
+						{% csrf_token %}
+				  		<div class="form-group row">
+				    		<label class="col-sm-2 col-form-label"><b>Title</b></label>
+				    		<div class="col-sm-10">
+				      			{{ form.title }}
+				      			<span class="text-danger">{{ form.title.errors }}</span>
+				    		</div>
+				  		</div>
+				  		<div class="form-group row">
+				    		<label class="col-sm-2 col-form-label"><b>Text</b></label>
+				    		<div class="col-sm-10">
+				      			{{ form.content }}
+				      			<span class="text-danger">{{ form.content.errors }}</span>
+				    		</div>
+				  		</div>
+				  		<br>
+				  		<button type="submit" class="btn btn-sm btn-outline-success">Submit</button>
+					</form>
+				</div>
+				
+				<div class="col-lg-2 col-md-2"></div>
+			</div>
+		</div>
+	</div>
+{%endblock%}

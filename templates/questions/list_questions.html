@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{%block title%} EasyTraveller | Questions {%endblock%}
+
+{%block content%}
+	<div class="breadcam_area overlay2" style="background-image: url('{%static 'img/question.jpg' %}');">
+		<div class="bradcam_text">
+            <h3>Questions</h3>
+        </div>
+    </div>
+
+	<div class="container">
+		<div class="jumbotron">
+			<ul class="list-group">
+				{% for question in questions %}
+					<li class="list-group-item">
+						<div>
+							<h2 class="text-primary text-center"><a href="{%url 'question_details' question.slug %}">{{ question.title }}</a></h2>
+							<br>
+							<div>
+								<span class="text-primary">{{ question.count_answers }} Answer</span>
+								<span style="float: right;">asked by - <a href="{%url 'profile' question.user.username %}" class="yellowhover">{{ question.user.name }}</a>&nbsp;<img src="{{ question.user.get_profile }}" class="short_profile_img"></span>
+							</div>
+						</div>
+					</li>
+					<br>
+				{% endfor %}
+			</ul>
+
+			{% if page_obj.has_other_pages %}
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item"><a href="?page={{ page_obj.previous_page_number }}" class="page-link">Previous</a></li>&nbsp;&nbsp;
+                    {% else %}
+                        <li class="page-item disabled"><span>Previous</span></li>&nbsp;&nbsp;
+                    {% endif %}
+                    {% for i in page_obj.paginator.page_range %}
+                        {% if page_obj.number == i %}
+                            <li class="page-item active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>&nbsp;&nbsp;
+                        {% else %}
+                            <li class="page-item"><a href="?page={{ i }}">{{ i }}</a></li>&nbsp;&nbsp;
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                        <li class="page-item"><a href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                    {% else %}
+                        <li class="page-item disabled"><span>Next</span></li>
+                    {% endif %}
+                </ul>
+            {% endif %}
+		</div>
+	</div>
+{%endblock%}

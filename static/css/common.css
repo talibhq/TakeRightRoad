@@ -170,3 +170,20 @@
   width: 100%; 
   height: 500px;
 }
+
+.smile:hover{
+  cursor: pointer;
+}
+
+#count_smiles{
+  color: red;
+}
+
+.explore-question-div{
+  background-color: black; 
+  padding: 70px;
+}
+
+.mt-40{
+  margin-top: 40px;
+}

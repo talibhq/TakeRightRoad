@@ -5,7 +5,6 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.text import slugify
 from django.http import JsonResponse, Http404
 from django.contrib import messages
-from django.utils import timezone
 
 from account.models import User
 from .models import Blog, Category, Tag, BlogComment
@@ -150,5 +149,5 @@ class BlogCommentView(LoginRequiredMixin, View):
 		blog = get_object_or_404(Blog, slug=slug)
 		text = request.POST.get('text', '')
 		if text:
-			BlogComment.objects.create(blog=blog, user=request.user, text=text, created_on=timezone.now())
+			BlogComment.objects.create(blog=blog, user=request.user, text=text)
 		return redirect('single_blog', slug=slug)

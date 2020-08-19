@@ -117,3 +117,23 @@ $('.show_modal').on('click', function(){
 		});
 	}
 });
+
+$('.smile').on('click', function(){
+	var answer_id = $(this).attr('answer_id');
+	var count_smile_tag = $(this).next("span");
+	$.ajax({
+		url : '/question/give-smile/' + answer_id,
+		success : function(data){
+			count_smile_tag.empty();
+			count_smile_tag.text(data.total_smiles + ' smiles');
+			if(!data.success){
+				var slug = $('.question_slug').val();
+				var url = '/question/' + slug;
+				location.href = '/account/login/?next=' + url;
+			}
+		},
+		error : function(jqXHR, status, error){
+			alert("Internal Server Error!");
+		}
+	});
+});

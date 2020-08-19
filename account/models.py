@@ -5,7 +5,7 @@ class User(AbstractUser):
 	name = models.CharField(max_length=255)
 	profile = models.ImageField(upload_to='user_profiles', null=True, blank=True)
 	bio = models.TextField(null=True, blank=True)
-	followers = models.ManyToManyField('self', symmetrical=False, blank=True)
+	followers = models.ManyToManyField('self', symmetrical=False, blank=True, related_name='user_followers')
 	facebook_link = models.URLField(null=True, blank=True)
 	instagram_link = models.URLField(null=True, blank=True)
 	twitter_link = models.URLField(null=True, blank=True)

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{%block title%} EasyTraveller | Question Details {%endblock%}
+
+{%block content%}
+	<div class="container">
+		<div class="jumbotron">
+			<div>
+        <input type="hidden" value="{{ question.slug }}" class="question_slug">
+				<h2 class="text-center text-primary">{{ question.title }}</h2>
+				<br>
+				<h4>{{ question.content }}</h4>
+				<br>
+				<div class="text-muted">
+					<span>{{ question.timestamp }}</span>
+					<span style="float: right;">asked by - <a href="{%url 'profile' question.user.username %}" class="yellowhover">{{ question.user.name }}</a>&nbsp;<img src="{{ question.user.get_profile }}" class="short_profile_img"></span>
+				</div>
+			</div>
+			<div class="comments-area">
+      	{% if answers %}
+        	<h4>{{ answers.count }} Answer</h4>
+        	{% for answer in answers %}
+          		<div class="comment-list">
+            		<div class="single-comment justify-content-between d-flex">
+              			<div class="user justify-content-between d-flex">
+                			<div class="thumb">
+                  				<img src="{{ answer.user.get_profile }}" class="comment-user-img" alt="">
+                			</div>
+                			<div class="desc">
+                  				<p class="comment">{{ answer.text }}</p>
+                  				<div class="d-flex justify-content-between">
+                    				<div class="d-flex align-items-center">
+                      					<h5>
+                        					<a href="{%url 'profile' answer.user.username %}">{{ answer.user.name }}</a>
+                      					</h5>
+                      					<p class="date">{{ answer.timestamp }}</p>&nbsp;&nbsp;&nbsp;
+                                <div>
+                                  <span class="smile" answer_id="{{ answer.id }}"><img src="{%static 'img/yellow-smile.png' %}" width="40" height="40" /></span>
+                                  <span id="count_smiles">{{ answer.smiles }} smiles</span>
+                                </div>
+                    				</div>
+                  				</div>
+                			</div>
+              			</div>
+            		</div>
+          		</div>
+        	{% endfor %}
+      	{% endif %}
+
+      	{% if user.is_authenticated and user != question.user %}
+        	<div class="comment-form">
+          		<h3>Give Answer</h3>
+          		<form class="form-contact comment_form" id="commentForm" method="POST" action="{%url 'give_answer' question.slug %}">
+            		{% csrf_token %}
+            		<div class="row">
+              			<div class="col-12">
+                			<div class="form-group">
+                  				<textarea class="form-control" rows="7" cols="7" name="answer" required></textarea>
+                			</div>
+              			</div>
+            		</div>
+            		<div class="form-group">
+              			<button type="submit" class="btn btn-sm btn-outline-info">Submit</button>
+            		</div>
+          		</form>
+        	</div>
+      	{% endif %}
+      </div>
+		</div>
+	</div>
+{%endblock%}
