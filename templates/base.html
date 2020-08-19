@@ -33,7 +33,7 @@
         <div class="container">
           <div class="row align-items-center">
             <div class="col-xl-4 col-md-4 d-none d-md-block">
-              <div class="header_links ">
+              <div class="header_links">
                 <ul>
                   <li><a href="https://www.facebook.com/talib.qureshi.338/"> <i class="fa fa-facebook"></i> </a></li>
                   <li><a class="twiter" href="https://www.instagram.com/talibhq/"> <i class="fa fa-twitter"></i> </a></li>
@@ -41,14 +41,14 @@
                 </ul>
               </div>
             </div>
-            <div class="col-xl-4 col-md-4">
+            <div class="col-xl-4 col-md-4 text-center">
               <div class="logo">
                 <a href="{%url 'index' %}"> 
-                  <img src="{%static 'img/logo.png' %}" alt="" style="width: 100px; height: 100px; margin-left: 140px;">
+                  <img src="{%static 'img/logo.png' %}" alt="" style="width: 200px; height: 120px;">
                 </a>
               </div>
             </div>
-            <div class="col-xl-4 col-md-4 d-none d-md-block">
+            <div class="col-xl-4 col-md-4 d-md-block text-center">
               <div class="login_resiter">
                 <p>
                   {% if user.is_authenticated %}

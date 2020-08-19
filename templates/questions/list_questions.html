@@ -17,10 +17,10 @@
 				{% for question in questions %}
 					<li class="list-group-item">
 						<div>
-							<h2 class="text-primary text-center"><a href="{%url 'question_details' question.slug %}">{{ question.title }}</a></h2>
+							<h2 class="text-info text-center"><a href="{%url 'question_details' question.slug %}">{{ question.title }}</a></h2>
 							<br>
 							<div>
-								<span class="text-primary">{{ question.count_answers }} Answer</span>
+								<span class="text-secendary">On - {{ question.timestamp|date }}</span>
 								<span style="float: right;">asked by - <a href="{%url 'profile' question.user.username %}" class="yellowhover">{{ question.user.name }}</a>&nbsp;<img src="{{ question.user.get_profile }}" class="short_profile_img"></span>
 							</div>
 						</div>
@@ -30,25 +30,27 @@
 			</ul>
 
 			{% if page_obj.has_other_pages %}
-                <ul class="pagination">
-                    {% if page_obj.has_previous %}
-                        <li class="page-item"><a href="?page={{ page_obj.previous_page_number }}" class="page-link">Previous</a></li>&nbsp;&nbsp;
-                    {% else %}
-                        <li class="page-item disabled"><span>Previous</span></li>&nbsp;&nbsp;
-                    {% endif %}
-                    {% for i in page_obj.paginator.page_range %}
-                        {% if page_obj.number == i %}
-                            <li class="page-item active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>&nbsp;&nbsp;
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item"><a href="?page={{ page_obj.previous_page_number }}" class="page-link">Previous</a></li>&nbsp;&nbsp;
                         {% else %}
-                            <li class="page-item"><a href="?page={{ i }}">{{ i }}</a></li>&nbsp;&nbsp;
+                            <li class="page-item disabled"><span class="page-link">Previous</span></li>&nbsp;&nbsp;
                         {% endif %}
-                    {% endfor %}
-                    {% if page_obj.has_next %}
-                        <li class="page-item"><a href="?page={{ page_obj.next_page_number }}">Next</a></li>
-                    {% else %}
-                        <li class="page-item disabled"><span>Next</span></li>
-                    {% endif %}
-                </ul>
+                        {% for i in page_obj.paginator.page_range %}
+                            {% if page_obj.number == i %}
+                                <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>&nbsp;&nbsp;
+                            {% else %}
+                                <li class="page-item"><a href="?page={{ i }}" class="page-link">{{ i }}</a></li>&nbsp;&nbsp;
+                            {% endif %}
+                        {% endfor %}
+                        {% if page_obj.has_next %}
+                            <li class="page-item"><a href="?page={{ page_obj.next_page_number }}" class="page-link">Next</a></li>
+                        {% else %}
+                            <li class="page-item disabled"><span class="page-link">Next</span></li>
+                        {% endif %}
+                    </ul>
+                </nav>
             {% endif %}
 		</div>
 	</div>

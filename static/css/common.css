@@ -18,15 +18,18 @@
 
 .user_social_link ul li a{
 	width: 43px;
-  	height: 43px;
-  	border-radius: 50%;
-  	line-height: 43px;
-  	font-size: 18px;
-  	color: #fff;
-  	background: #3B5998;
-  	display: inline-block;
-  	text-align: center;
-  	margin: 0 7px;
+	height: 43px;
+	border-radius: 50%;
+	line-height: 43px;
+	font-size: 18px;
+	background: #3B5998;
+	display: inline-block;
+	text-align: center;
+	margin: 0 7px;
+}
+
+.user_social_link ul li a i{
+  color: white!important;
 }
 
 .user_social_link ul li a.twiter {
@@ -38,8 +41,7 @@
 }
 
 .user_social_link ul li a:hover {
-  background: #fff;
-  color: #1f1f1f;
+  background: black;
 }
 
 .followers{
