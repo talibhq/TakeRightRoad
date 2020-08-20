@@ -27,7 +27,7 @@ SECRET_KEY = '1e9+)7pgdq*neb6&_ym&$7s8=#4w6pjluj&muhrqkica1g1p7y'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost', 'https://takerightroad-test.herokuapp.com/']
 
 AUTH_USER_MODEL = 'account.User'
 
