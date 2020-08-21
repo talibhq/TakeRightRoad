@@ -27,7 +27,7 @@ SECRET_KEY = '1e9+)7pgdq*neb6&_ym&$7s8=#4w6pjluj&muhrqkica1g1p7y'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['talibhq.pythonanywhere.com']
 
 AUTH_USER_MODEL = 'account.User'
 
@@ -89,10 +89,10 @@ WSGI_APPLICATION = 'main_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ttr_db',
-        'USER': 'admin',
-        'PASSWORD': 'talib@12345',
+        'USER': 'root',
+        'PASSWORD': 'talib123',
         'HOST': 'localhost',
     }
 }
