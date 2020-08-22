@@ -59,6 +59,46 @@ class SingleBlogView(View):
 		}
 		return render(request, self.template_name, context)
 
+class EditBlogView(LoginRequiredMixin, View):
+	template_name = 'blog/edit_blog.html'
+	form = BlogForm
+	def get(self, request, slug):
+		blog = get_object_or_404(Blog, slug=slug)
+		if blog.author != request.user:
+			raise Http404('Page not found')
+		context = {
+			'blog' : blog,
+			'form' : self.form(instance=blog),
+			'categories' : get_categories(),
+		}
+		return render(request, self.template_name, context)
+
+	def post(self, request, slug):
+		blog = get_object_or_404(Blog, slug=slug)
+		if blog.author != request.user:
+			raise Http404('Page not found')
+		form = self.form(request.POST, request.FILES, instance=blog)
+		if form.is_valid():
+			form.save()
+			messages.success(request, 'Your blog is updated!')
+			return redirect('single_blog', slug=slug)
+		else:
+			context = {
+				'blog' : blog,
+				'form' : form,
+				'categories' : get_categories(),
+			}
+			return render(request, self.template_name, context)
+
+class DeleteBlogView(LoginRequiredMixin, View):
+	def get(self, request, slug):
+		blog = get_object_or_404(Blog, slug=slug)
+		if request.user == blog.author:
+			blog.delete()
+			messages.warning(request, 'Your blog is deleted!')
+			return redirect('profile', username=request.user.username)
+		raise Http404('Page Not Found')
+
 class CategoryWiseBlogView(View):
 	template_name = 'blog/category_blogs.html'
 	def get(self, request, slug):
@@ -135,19 +175,29 @@ class ToggleLikeBlogView(View):
 		total_likes = blog.count_likes()
 		return JsonResponse({'liked':liked, 'total_likes':total_likes})
 
-class DeleteBlogView(LoginRequiredMixin, View):
-	def get(self, request, slug):
-		blog = get_object_or_404(Blog, slug=slug)
-		if request.user == blog.author:
-			blog.delete()
-			messages.warning(request, 'Your blog is deleted!')
-			return redirect('profile', username=request.user.username)
-		raise Http404('Page Not Found')
-
 class BlogCommentView(LoginRequiredMixin, View):
 	def post(self, request, slug):
 		blog = get_object_or_404(Blog, slug=slug)
 		text = request.POST.get('text', '')
 		if text:
 			BlogComment.objects.create(blog=blog, user=request.user, text=text)
+		return redirect('single_blog', slug=slug)
+
+class EditCommentView(LoginRequiredMixin, View):
+	def post(self, request, slug, comment_id):
+		comment = get_object_or_404(BlogComment, id=comment_id)
+		if request.user != comment.user:
+			success = False
+		text = request.POST.get('text')
+		comment.text = text
+		comment.save()
+		return redirect('single_blog', slug=slug)
+
+class DeleteCommentView(LoginRequiredMixin, View):
+	def get(self, request, slug, comment_id):
+		comment = get_object_or_404(BlogComment, id=comment_id)
+		if request.user != comment.user:
+			raise Http404('Page not found')
+		comment.delete()
+		messages.warning(request, 'Comment deleted!')
 		return redirect('single_blog', slug=slug)

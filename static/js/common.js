@@ -68,10 +68,18 @@ function previewProfile(event){
 	$("#preview").append(html);
 }
 
-$('#delete_btn').on('click', function(){
+$('#delete_blog_btn').on('click', function(){
 	if(confirm('You want to delete this blog?')){
 		var slug = $(this).attr('slug');
 		var url = '/blog/' + slug + '/delete/'
+		location.href = url;
+	}
+});
+
+$('#delete_question_btn').on('click', function(){
+	if(confirm('You want to delete this Question?')){
+		var slug = $(this).attr('slug');
+		var url = '/question/' + slug + '/delete/'
 		location.href = url;
 	}
 });
@@ -137,3 +145,19 @@ $('.smile').on('click', function(){
 		}
 	});
 });
+
+function EditCommentOrAnswer(element, ){
+	var parent = $(element).parents('.desc');
+	var tag_length = parent.find('p').length;
+	if(tag_length == 1){
+		var url = parent.find('.url').val();
+		var csrf = parent.find('.csrf_token').val();
+		var text = parent.find('.comment').text();
+		var html = '<div class="comment"><form method="POST" action="'+url+'/" style="display:flex;"><input type="hidden" value="'+csrf+'" name="csrfmiddlewaretoken" /><input value="'+text+'" class="form-control mr-2" name="text"/><input type="submit" class="btn btn-sm btn-outline-info" value="Edit" /></form></div>';
+	}else{
+		var text = parent.find('input[name=text]').val();
+		var html = '<p class="comment">'+text+'</p>';
+	}
+	parent.find('.comment').remove();
+	parent.prepend(html);
+}

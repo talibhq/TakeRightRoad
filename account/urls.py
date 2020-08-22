@@ -1,6 +1,6 @@
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
-from .views import UserSignupView, UserLoginView, UserLogoutView, UserProfileView, UserUpdateProfileView, ToggleFollowView, GetFollowersView, GetFollowingView
+from .views import UserSignupView, UserLoginView, UserLogoutView, UserProfileView, UserUpdateProfileView, GetFollowersView, GetFollowingView, ToggleFollowView
 
 urlpatterns = [
 	path('signup/', UserSignupView.as_view(), name='user_signup'),

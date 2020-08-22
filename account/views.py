@@ -128,26 +128,6 @@ class UserUpdateProfileView(LoginRequiredMixin, View):
 			}
 			return render(request, self.template_name, context)
 
-class ToggleFollowView(LoginRequiredMixin, View):
-	def get(self, request, username):
-		user = get_object_or_404(User, username=username)
-		exists = user.followers.filter(id=request.user.id).exists()
-		if exists:
-			user.followers.remove(request.user)
-			flag = "unfollow"
-		else:
-			user.followers.add(request.user)
-			flag = "follow"
-
-		data = {
-			'flag' : flag,
-			'requested_user_followers' : user.count_followers(),
-			'requested_user_following' : user.count_following(),
-			'authenticated_user_followers' : request.user.count_followers(),
-			'authenticated_user_following' : request.user.count_following(),
-		}
-		return JsonResponse(data)
-
 class GetFollowersView(View):
 	def get(self, request, username):
 		user = get_object_or_404(User, username=username)
@@ -183,5 +163,25 @@ class GetFollowingView(View):
 		data = {
 			'users_data' : following_users_data,
 			'title' : 'Following',
+		}
+		return JsonResponse(data)
+
+class ToggleFollowView(LoginRequiredMixin, View):
+	def get(self, request, username):
+		user = get_object_or_404(User, username=username)
+		exists = user.followers.filter(id=request.user.id).exists()
+		if exists:
+			user.followers.remove(request.user)
+			flag = "unfollow"
+		else:
+			user.followers.add(request.user)
+			flag = "follow"
+
+		data = {
+			'flag' : flag,
+			'requested_user_followers' : user.count_followers(),
+			'requested_user_following' : user.count_following(),
+			'authenticated_user_followers' : request.user.count_followers(),
+			'authenticated_user_following' : request.user.count_following(),
 		}
 		return JsonResponse(data)

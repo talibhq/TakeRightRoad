@@ -27,7 +27,7 @@ SECRET_KEY = '1e9+)7pgdq*neb6&_ym&$7s8=#4w6pjluj&muhrqkica1g1p7y'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['talibhq.pythonanywhere.com']
+ALLOWED_HOSTS = ['localhost', 'talibhq.pythonanywhere.com']
 
 AUTH_USER_MODEL = 'account.User'
 
@@ -121,7 +121,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Calcutta'
 
 USE_I18N = True
 

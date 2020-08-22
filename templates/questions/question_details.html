@@ -16,6 +16,13 @@
 					<span>{{ question.timestamp }}</span>
 					<span style="float: right;">asked by - <a href="{%url 'profile' question.user.username %}" class="yellowhover">{{ question.user.name }}</a>&nbsp;<img src="{{ question.user.get_profile }}" class="short_profile_img"></span>
 				</div>
+        <br><br>
+        {% if user == question.user %}
+          <div>
+            <a href="{%url 'edit_question' question.slug %}" class="btn btn-sm btn-outline-info">Edit</a>
+            <button id="delete_question_btn" slug="{{ question.slug }}" class="btn btn-sm btn-outline-danger">Delete</button>
+          </div>
+        {% endif %}
 			</div>
 			<div class="comments-area">
       	{% if answers %}
@@ -28,13 +35,22 @@
                   				<img src="{{ answer.user.get_profile }}" class="comment-user-img" alt="">
                 			</div>
                 			<div class="desc">
+                          <input type="hidden" class="csrf_token" value="{{ csrf_token }}">
+                          <input type="hidden" class="url" value="/question/{{ question.slug }}/edit/answer/{{ answer.id }}">
                   				<p class="comment">{{ answer.text }}</p>
                   				<div class="d-flex justify-content-between">
                     				<div class="d-flex align-items-center">
                       					<h5>
                         					<a href="{%url 'profile' answer.user.username %}">{{ answer.user.name }}</a>
                       					</h5>
-                      					<p class="date">{{ answer.timestamp }}</p>&nbsp;&nbsp;&nbsp;
+                      					<h5 class="date">{{ answer.timestamp }}</h5>
+                                {% if answer.user == user %}
+                                  &nbsp;&nbsp;
+                                  <h5><a class="small-delete-btn" href="{%url 'delete_answer' question.slug answer.id %}">Delete</a></h5>
+                                  &nbsp;&nbsp;
+                                  <h5><a class="small-edit-btn" onclick="EditCommentOrAnswer(this)">Edit</a></h5>
+                                {% endif %}
+                                &nbsp;&nbsp;&nbsp;&nbsp;
                                 <div>
                                   <span class="smile" answer_id="{{ answer.id }}"><img src="{%static 'img/yellow-smile.png' %}" width="40" height="40" /></span>
                                   <span id="count_smiles">{{ answer.smiles }} smiles</span>
@@ -61,7 +77,7 @@
               			</div>
             		</div>
             		<div class="form-group">
-              			<button type="submit" class="btn btn-sm btn-outline-info">Submit</button>
+              			<button type="submit" class="btn btn-sm btn-outline-success">Submit</button>
             		</div>
           		</form>
         	</div>

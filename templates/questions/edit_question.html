@@ -1,22 +1,16 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{%block title%} TakeRightRoad | Ask Question {%endblock%}
+{%block title%} TakeRightRoad | Edit Question {%endblock%}
 
 {%block content%}
-	<div class="breadcam_area overlay2" style="background-image: url('{%static 'img/doubt.png' %}'); opacity: 0.8;">
-        <div class="bradcam_text">
-            <h3><span class="banner_title">Ask your travelling doubts with the world</span></h3>
-        </div>
-    </div>
-
 	<div class="container">
 		<div class="jumbotron">
 			<div class="row">
 				<div class="col-lg-2 col-md-2"></div>
 
 				<div class="col-lg-8 col-md-8">
-					<h2 class="text-center text-info">Ask Question</h2>
+					<h2 class="text-center text-info">Edit Question</h2>
 					<br><br>
 					<form method="POST">
 						{% csrf_token %}
@@ -36,7 +30,7 @@
 				  		</div>
 				  		<br>
 				  		<div class="text-center">
-				  			<button type="submit" class="btn btn-outline-success">Submit</button>
+				  			<button type="submit" class="btn btn-outline-info">Edit</button>
 				  		</div>
 					</form>
 				</div>
