@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'dashboard',
     'account',
     'blog',
-    'chat',
     'ask_question',
 ]
 
